@@ -1,0 +1,11 @@
+default:
+  suites:
+    default:
+      contexts:
+        - test
+  extensions:
+    Behat\MinkExtension:
+      base_url: http://localhost/moodle
+      goutte: ~
+      selenium2:
+        wd_host: "http://localhost:5432/moodle"
