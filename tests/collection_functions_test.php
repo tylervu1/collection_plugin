@@ -31,25 +31,31 @@ require_once(__DIR__ . '/../collection_functions.php');
 
 class collection_functions_test extends advanced_testcase {
 
+    private $record;
+    private $userid;
+    private $course;
+
+    public function setUp(): void {
+        $this->record = new stdClass();
+        $this->record->name = 'Test name';
+        $this->record->email = 'test@email.com';
+        $this->record->phone = '1234567890';
+
+        $this->userid = 1;
+        $this->course = new stdClass();
+        $this->course->id = 1;
+        $this->course->fullname = 'Test course';
+    }
+
     public function test_build_record() {
-        $fromform = new stdClass();
-        $fromform->name = 'Test name';
-        $fromform->email = 'test@email.com';
-        $fromform->phone = '1234567890';
+        $result = build_record($this->record, $this->userid, $this->course);
 
-        $userid = 1;
-        $course = new stdClass();
-        $course->id = 1;
-        $course->fullname = 'Test course';
-
-        $result = build_record($fromform, $userid, $course);
-
-        $this->assertEquals($fromform->name, $result->contactname);
-        $this->assertEquals($fromform->email, $result->contactemail);
-        $this->assertEquals($fromform->phone, $result->contactphone);
-        $this->assertEquals($userid, $result->userid);
-        $this->assertEquals($course->id, $result->course);
-        $this->assertEquals($course->fullname, $result->name);
+        $this->assertEquals($this->record->name, $result->contactname);
+        $this->assertEquals($this->record->email, $result->contactemail);
+        $this->assertEquals($this->record->phone, $result->contactphone);
+        $this->assertEquals($this->userid, $result->userid);
+        $this->assertEquals($this->course->id, $result->course);
+        $this->assertEquals($this->course->fullname, $result->name);
     }
 
     public function test_save_data() {
@@ -58,34 +64,25 @@ class collection_functions_test extends advanced_testcase {
         // Mock the $DB object.
         $DB = $this->createMock(get_class($DB));
 
-        $record = new stdClass();
-        $record->userid = 1;
-        $record->contactname = 'Test name';
-        $record->contactemail = 'test@email.com';
-        $record->contactphone = '1234567890';
-        $record->course = 1;
-        $record->name = 'Test course';
-        $record->timecreated = time();
-
         // Test when current record exists.
         $currentrecord = new stdClass();
         $currentrecord->id = 1;
 
         $DB->expects($this->once())
             ->method('update_record')
-            ->with($this->equalTo('collection'), $this->equalTo($record))
+            ->with($this->equalTo('collection'), $this->equalTo($this->record))
             ->willReturn(true);
 
-        $this->assertTrue(save_data($record, $currentrecord));
+        $this->assertTrue(save_data($this->record, $currentrecord));
 
         // Test when current record does not exist.
         $currentrecord = null;
 
         $DB->expects($this->once())
             ->method('insert_record')
-            ->with($this->equalTo('collection'), $this->equalTo($record))
+            ->with($this->equalTo('collection'), $this->equalTo($this->record))
             ->willReturn(true);
 
-        $this->assertTrue(save_data($record, $currentrecord));
+        $this->assertTrue(save_data($this->record, $currentrecord));
     }
 }

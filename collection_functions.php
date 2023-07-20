@@ -22,6 +22,16 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/**
+ * Build a standard class object (record) from the form data, user id and course details.
+ *
+ * @param object $fromform The data from the form. Expected to have properties: name, email, and phone.
+ * @param int $userid The id of the user.
+ * @param object $course The course object. Expected to have properties: id and fullname.
+ *
+ * @return stdClass The created record, having properties: userid, contactname, contactemail, contactphone,
+ * course, name, and timecreated.
+ */
 function build_record($fromform, $userid, $course) {
     $record = new stdClass();
     $record->userid = $userid;
@@ -36,31 +46,48 @@ function build_record($fromform, $userid, $course) {
     return $record;
 }
 
+/**
+ * Saves a record into the 'collection' database table. If the record already exists (determined by
+ * checking the id in $currentrecord), it updates the record. Otherwise, it inserts a new record.
+ *
+ * @param stdClass $record The record to be saved, typically created by build_record().
+ * @param stdClass $currentrecord The current record, typically retrieved from a form.
+ *
+ * @return bool|int On success, return true for update operations or the new record ID for insert operations.
+ *                  On failure, return false.
+ */
 function save_data($record, $currentrecord) {
     global $DB;
     if (isset($currentrecord->id)) {
         // If the record already exists.
         $record->id = $currentrecord->id;
-        if ($DB->update_record('collection', $record)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $DB->update_record('collection', $record);
     } else {
         // Otherwise create new record.
-        if ($DB->insert_record('collection', $record)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $DB->insert_record('collection', $record);
     }
 }
 
+/**
+ * Retrieves records from the 'collection' database table for a given course.
+ *
+ * @param stdClass $course The course object, which is expected to have an 'id' property.
+ *
+ * @return array Returns an array of stdClass objects representing database records.
+ */
 function get_records($course) {
     global $DB;
     return $DB->get_records('collection', array('course' => $course->id));
 }
 
+/**
+ * Displays a table of records on the page. The table includes columns for name, email, and phone.
+ * If a record has all three fields empty, it's skipped and not displayed in the table.
+ *
+ * @param array $records An array of stdClass objects representing records to be displayed.
+ *
+ * @return void
+ */
 function display_table($records) {
     // Open table.
     echo '<table class="table table-responsive table-striped">';

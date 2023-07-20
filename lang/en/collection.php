@@ -23,17 +23,15 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die();
 
- $string['pluginname'] = 'Collection Form';
- $string['modulename'] = 'Collection';
- $string['modulenameplural'] = 'Collections';
- $string['collectionname'] = 'Collection Name';
- $string['collectionname_help'] = 'This is the name of the Collection.';
- $string['collectionsettings'] = 'Collection Settings';
- $string['collectionfieldset'] = 'Collection Fieldset';
- $string['pluginadministration'] = 'Collection module administration';
-
- $string['invalidphone'] = 'Invalid phone number.';
- $string['invalidemail'] = 'Invalid email address.';
-
+$string['pluginname'] = 'Collection Form';
+$string['modulename'] = 'Collection';
+$string['modulenameplural'] = 'Collections';
+$string['collectionname'] = 'Collection Name';
+$string['collectionname_help'] = 'This is the name of the Collection.';
+$string['collectionsettings'] = 'Collection Settings';
+$string['collectionfieldset'] = 'Collection Fieldset';
+$string['pluginadministration'] = 'Collection module administration';
+$string['invalidphone'] = 'Invalid phone number.';
+$string['invalidemail'] = 'Invalid email address.';

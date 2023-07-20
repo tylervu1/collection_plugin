@@ -73,7 +73,7 @@ if (has_capability('mod/collection:submit', $modulecontext)) {
     // Display the data for them.
 
     // Get the records from the 'collection' table for the current course.
-    $records = get_records($course);
+    $records = $DB->get_records('collection', array('course' => $course->id));
     display_table($records);
 }
 

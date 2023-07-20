@@ -77,7 +77,7 @@ function collection_reset_userdata($data) {
  * @param mod_collection_mod_form $mform The form.
  * @return int The id of the newly inserted record.
  */
-function collection_add_instance($moduleinstance, $mform = null) {
+function collection_add_instance($moduleinstance) {
     global $DB, $USER;
 
     $moduleinstance->timecreated = time();
@@ -98,7 +98,7 @@ function collection_add_instance($moduleinstance, $mform = null) {
  * @param mod_collection_mod_form $mform The form.
  * @return bool True if successful, false otherwise.
  */
-function collection_update_instance($moduleinstance, $mform = null) {
+function collection_update_instance($moduleinstance) {
     global $DB;
 
     $moduleinstance->timemodified = time();

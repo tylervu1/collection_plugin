@@ -37,18 +37,11 @@ class backup_collection_activity_structure_step extends backup_activity_structur
      * @return backup_nested_element The structure wrapped by the common 'activity' element.
      */
     protected function define_structure() {
-        $userinfo = $this->get_setting_value('userinfo');
-
         // Replace with the attributes and final elements that the element will handle.
         $attributes = array('id');
         $finalelements = array('userid', 'course', 'name', 'timecreated', 'timemodified', 'intro', 'introformat', 'contactname',
             'contactemail', 'contactphone');
         $root = new backup_nested_element('collection', $attributes, $finalelements);
-
-        // Build the tree with these elements with $root as the root of the backup tree.
-
-        // Define the source tables for the elements.
-        $root->set_source_table('collection', array('id' => backup::VAR_ACTIVITYID));
 
         // Define file annotations.
         $root->annotate_files('mod_collection', 'intro', null);
