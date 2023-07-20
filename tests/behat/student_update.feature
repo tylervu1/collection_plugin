@@ -1,7 +1,7 @@
 Feature: Student updates form (after submitting before)
   As a student
   I want to update a form on the collection activity
-  
+
   Background:
     Given the following "courses" exist:
       | fullname | shortname | category | idnumber |
@@ -14,15 +14,15 @@ Feature: Student updates form (after submitting before)
       | user  | course | role |
       | student | TC1 | student |
       | teacher | TC1 | editingteacher |
-    Given I log in as "admin"
+    And I log in as "admin"
     And I am on "Test Course" course homepage with editing mode on
     And I add a "Collection" to section "1" and I fill the form with:
       | name | Test |
     And I log out
-    Given I log in as "student"
+    And I log in as "student"
     And I am on "Test Course" course homepage
     And I follow "Test"
-    Then the field "name" should be empty
+    And the field "name" should be empty
     And the field "email" should be empty
     And the field "phone" should be empty
     When I fill out the form with:
@@ -30,7 +30,7 @@ Feature: Student updates form (after submitting before)
       | email | old@test.com   |
       | phone | 0000000000     |
     And I press "Save changes"
-    Then I should see "Data saved successfully" on the page
+    And I should see "Data saved successfully" on the page
     And I log out
 
   @javascript
@@ -42,14 +42,14 @@ Feature: Student updates form (after submitting before)
     Then the field "name" should contain "Old Behat Test"
     And the field "email" should contain "old@test.com"
     And the field "phone" should contain "0000000000"
-    When I fill out the form with:
+    And I fill out the form with:
       | name  | Behat Test     |
       | email | behat@test.com |
       | phone | 1122334455     |
     And I press "Save changes"
-    Then I should see "Data saved successfully" on the page
+    And I should see "Data saved successfully" on the page
     And I log out
-    Given I log in as "teacher"
+    And I log in as "teacher"
     And I am on "Test Course" course homepage
     And I follow "Test"
     Then I should see the user answers
