@@ -76,7 +76,7 @@ class collection_functions_test extends advanced_testcase {
         $this->assertTrue(save_data($this->record, $currentrecord));
 
         // Test when current record does not exist.
-        $currentrecord = null;
+        $currentrecord->id = null;
 
         $DB->expects($this->once())
             ->method('insert_record')
